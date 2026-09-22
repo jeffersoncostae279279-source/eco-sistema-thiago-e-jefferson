@@ -10,9 +10,9 @@
     <!-- Estilos Customizados em CSS3 -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="bg-light">
 
-    <!-- HEADER / NAV: Barra de navegação global semântica -->
+    <!-- HEADER / NAV: Barra de navegação global -->
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
             <div class="container">
@@ -23,11 +23,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
                         <li class="nav-item"><a class="nav-link active" href="#inicio">Início</a></li>
                         <li class="nav-item"><a class="nav-link" href="#ods12">Sobre o ODS 12</a></li>
                         <li class="nav-item"><a class="nav-link" href="#ecopontos">Pontos de Coleta</a></li>
                         <li class="nav-item"><a class="nav-link" href="#cadastro">Cadastrar Ponto</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold text-warning" href="relatorio.pdf" target="_blank">📄 Relatório (PDF)</a>
+                        </li>
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                            <a class="btn btn-outline-light btn-sm fw-semibold" href="#adminSection">🔒 Área Adm</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -170,7 +176,7 @@
             </div>
         </section>
 
-        <!-- SECTION 4: Formulário Estático (Sera ativado no JS na Nota 2) -->
+        <!-- SECTION 4: Formulário Dinâmico de Sugestão -->
         <section id="cadastro" class="py-5 bg-white">
             <div class="container">
                 <div class="row justify-content-center">
@@ -179,39 +185,111 @@
                             <h2 class="fw-bold text-center mb-2">Cadastre um Novo Ponto de Coleta</h2>
                             <p class="text-muted text-center mb-4">Conhece um ecoponto ou local de doação? Indique abaixo para incluirmos no mapa.</p>
                             
-                            <form onsubmit="return false;">
+                            <!-- Alerta de Sucesso ao Enviar -->
+                            <div id="alertSucesso" class="alert alert-success d-none text-center" role="alert">
+                                ✅ Sugestão enviada com sucesso! Ela foi encaminhada para análise no painel administrativo.
+                            </div>
+
+                            <form id="formSugestao">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="nomePonto" class="form-label fw-semibold">Nome do Ponto / Local:</label>
-                                        <input type="text" class="form-control" id="nomePonto" placeholder="Ex: Ecoponto Bairro Novo" required>
+                                        <input type="text" class="form-control" id="nomePonto" placeholder="PARQUE TRESIDELA" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="tipoMaterial" class="form-label fw-semibold">Tipo Principal de Material:</label>
                                         <select class="form-select" id="tipoMaterial" required>
-                                            <option value="" selected disabled>Selecione...</option>
-                                            <option value="reciclavis">Recicláveis em geral</option>
-                                            <option value="eletronicos">Lixo Eletrônico</option>
-                                            <option value="doacoes">Móveis e Roupas (Doação)</option>
-                                            <option value="organicos">Orgânicos / Compostagem</option>
+                                            <option value="" disabled selected>Selecione...</option>
+                                            <option value="Lixo Eletrônico">Lixo Eletrônico</option>
+                                            <option value="Recicláveis em Geral">Recicláveis em Geral</option>
+                                            <option value="Móveis e Roupas (Doação)">Móveis e Roupas (Doação)</option>
+                                            <option value="Orgânicos / Compostagem">Orgânicos / Compostagem</option>
                                         </select>
                                     </div>
                                     <div class="col-12">
                                         <label for="endereco" class="form-label fw-semibold">Endereço Completo:</label>
-                                        <input type="text" class="form-control" id="endereco" placeholder="Rua, número, bairro e cidade" required>
+                                        <input type="text" class="form-control" id="endereco" placeholder="AV CENTRAL TRESIDELA" required>
                                     </div>
                                     <div class="col-12">
                                         <label for="descricao" class="form-label fw-semibold">Instruções adicionais de descarte:</label>
-                                        <textarea class="form-control" id="descricao" rows="3" placeholder="Ex: Recebe apenas pilhas e baterias na portaria principal."></textarea>
+                                        <textarea class="form-control" id="descricao" rows="3" placeholder="SOMENTE LIXO ELETRONICO"></textarea>
                                     </div>
                                     <div class="col-12 d-grid mt-4">
-                                        <button type="button" class="btn btn-success btn-lg fw-bold">Enviar Sugestão de Ponto</button>
-                                        <small class="text-center text-muted mt-2">* Formulário estático de demonstração para a Nota 1.</small>
+                                        <button type="submit" class="btn btn-success btn-lg fw-bold">Enviar Sugestão de Ponto</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: ÁREA ADMINISTRATIVA (Análise de Sugestões com Login) -->
+        <section id="adminSection" class="py-5 bg-light border-top">
+            <div class="container py-3">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">🔒 Painel de Análise de Sugestões (ADM)</h2>
+                    <p class="text-muted">Área restrita para validação das sugestões de ecopontos enviadas pela comunidade.</p>
+                </div>
+
+                <!-- CARD DE LOGIN DE ADM -->
+                <div id="loginCard" class="row justify-content-center">
+                    <div class="col-md-5">
+                        <div class="card border-0 shadow-sm p-4 rounded-4">
+                            <h4 class="fw-bold text-center mb-3">Login Administrativo</h4>
+                            <div id="loginAlert" class="alert alert-danger d-none text-center" role="alert">
+                                Usuário ou senha incorretos!
+                            </div>
+                            <form id="formLogin">
+                                <div class="mb-3">
+                                    <label for="adminUser" class="form-label fw-semibold">Usuário:</label>
+                                    <input type="text" class="form-control" id="adminUser" placeholder="Digite o usuário" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="adminPass" class="form-label fw-semibold">Senha:</label>
+                                    <input type="password" class="form-control" id="adminPass" placeholder="Digite a senha" required>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-dark fw-bold">Entrar no Painel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAINEL DE ANÁLISE (Oculto até fazer login) -->
+                <div id="adminPanel" class="d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded-3 shadow-sm border">
+                        <div>
+                            <span class="text-success fw-bold fs-5">Bem-vindo, Administrador JEFFERSON!</span>
+                            <span class="badge bg-success ms-2">Sessão Ativa</span>
+                        </div>
+                        <button id="btnLogout" class="btn btn-outline-danger btn-sm fw-bold">Sair do Painel</button>
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4 p-4">
+                        <h4 class="fw-bold mb-3">Sugestões de Ecopontos Pendentes de Análise</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Data/Hora</th>
+                                        <th>Local</th>
+                                        <th>Tipo de Material</th>
+                                        <th>Endereço</th>
+                                        <th>Instruções</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaSugestoes">
+                                    <!-- Conteúdo preenchido dinamicamente via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -228,5 +306,103 @@
 
     <!-- CDN do Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- LÓGICA EM JAVASCRIPT (Envio do formulário, salvamento e painel ADM) -->
+    <script>
+        // 1. Lógica do Envio do Formulário de Sugestão
+        document.getElementById('formSugestao').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const novaSugestao = {
+                id: Date.now(),
+                data: new Date().toLocaleString('pt-BR'),
+                nome: document.getElementById('nomePonto').value,
+                tipo: document.getElementById('tipoMaterial').value,
+                endereco: document.getElementById('endereco').value,
+                descricao: document.getElementById('descricao').value || 'Sem instruções adicionais.'
+            };
+
+            // Recupera lista do localStorage ou cria uma vazia
+            let listaSugestoes = JSON.parse(localStorage.getItem('ecoponto_sugestoes')) || [];
+            listaSugestoes.push(novaSugestao);
+            localStorage.setItem('ecoponto_sugestoes', JSON.stringify(listaSugestoes));
+
+            // Exibe mensagem de sucesso e reseta formulário
+            const alert = document.getElementById('alertSucesso');
+            alert.classList.remove('d-none');
+            this.reset();
+
+            setTimeout(() => { alert.classList.add('d-none'); }, 5000);
+
+            // Atualiza tabela se estiver logado
+            carregarTabelaAdmin();
+        });
+
+        // 2. Lógica do Login de ADM (JEFFERSON / 12345678)
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('adminUser').value.trim();
+            const pass = document.getElementById('adminPass').value.trim();
+            const alert = document.getElementById('loginAlert');
+
+            if (user === 'JEFFERSON' && pass === '12345678') {
+                alert.classList.add('d-none');
+                document.getElementById('loginCard').classList.add('d-none');
+                document.getElementById('adminPanel').classList.remove('d-none');
+                carregarTabelaAdmin();
+            } else {
+                alert.classList.remove('d-none');
+            }
+        });
+
+        // Logout
+        document.getElementById('btnLogout').addEventListener('click', function() {
+            document.getElementById('adminPanel').classList.add('d-none');
+            document.getElementById('loginCard').classList.remove('d-none');
+            document.getElementById('formLogin').reset();
+        });
+
+        // 3. Renderização da Tabela de Análise
+        function carregarTabelaAdmin() {
+            const tbody = document.getElementById('tabelaSugestoes');
+            tbody.innerHTML = '';
+
+            let lista = JSON.parse(localStorage.getItem('ecoponto_sugestoes')) || [];
+
+            if (lista.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">Nenhuma sugestão enviada no momento.</td></tr>`;
+                return;
+            }
+
+            lista.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><small class="text-muted">${item.data}</small></td>
+                    <td><strong>${item.nome}</strong></td>
+                    <td><span class="badge bg-info text-dark">${item.tipo}</span></td>
+                    <td>${item.endereco}</td>
+                    <td><small>${item.descricao}</small></td>
+                    <td>
+                        <button class="btn btn-sm btn-success me-1" onclick="aprovarSugestao(${item.id})">Aprovar</button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="excluirSugestao(${item.id})">Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Funções para gerenciar sugestões
+        function excluirSugestao(id) {
+            let lista = JSON.parse(localStorage.getItem('ecoponto_sugestoes')) || [];
+            lista = lista.filter(item => item.id !== id);
+            localStorage.setItem('ecoponto_sugestoes', JSON.stringify(lista));
+            carregarTabelaAdmin();
+        }
+
+        function aprovarSugestao(id) {
+            alert('Sugestão aprovada com sucesso! (Na Nota 2 ela poderá ser migrada dinamicamente para os cards de Ecopontos).');
+            excluirSugestao(id);
+        }
+    </script>
 </body>
 </html>
