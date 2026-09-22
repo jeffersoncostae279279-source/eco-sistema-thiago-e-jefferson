@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="col-md-5 mt-4 mt-md-0 text-center">
-                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80" alt="Recipientes coloridos de lixo para reciclagem de papel, plástico e vidro" class="img-fluid rounded-4 shadow">
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80" alt="Lixeiras de reciclagem" class="img-fluid rounded-4 shadow">
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@
             </div>
         </section>
 
-        <!-- SECTION 3: Cards dos Ecopontos -->
+        <!-- SECTION 3: Cards dos Ecopontos Dinâmicos -->
         <section id="ecopontos" class="py-5 bg-light">
             <div class="container">
                 <div class="text-center mb-5">
@@ -130,53 +130,14 @@
                     <p class="text-muted">Consulte os locais disponíveis perto de você</p>
                 </div>
 
-                <div class="row g-4">
-                    <!-- Card 1 -->
-                    <div class="col-md-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Ponto de coleta de materiais recicláveis como papel e plástico">
-                            <div class="card-body">
-                                <span class="badge bg-primary mb-2">Recicláveis Geral</span>
-                                <h5 class="card-title fw-bold">Ecoponto Central</h5>
-                                <p class="card-text text-muted">Aceita plásticos, metais, vidros e papelão limpo.</p>
-                                <p class="small mb-1"><strong>📍 Endereço:</strong> Av. Principal, 100 - Centro</p>
-                                <p class="small mb-0"><strong>🕒 Horário:</strong> Seg a Sáb, das 8h às 17h</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="col-md-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Placas de circuito eletrônico e peças de computador para descarte de e-lixo">
-                            <div class="card-body">
-                                <span class="badge bg-warning text-dark mb-2">Lixo Eletrônico</span>
-                                <h5 class="card-title fw-bold">Estação E-Lixo</h5>
-                                <p class="card-text text-muted">Recebe pilhas, baterias, computadores e eletrodomésticos quebrados.</p>
-                                <p class="small mb-1"><strong>📍 Endereço:</strong> Rua da Tecnologia, 45 - Bairro Verde</p>
-                                <p class="small mb-0"><strong>🕒 Horário:</strong> Seg a Sex, das 9h às 18h</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="col-md-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Grupo de pessoas organizando caixa de doações comunitárias">
-                            <div class="card-body">
-                                <span class="badge bg-success mb-2">Reutilização & Troca</span>
-                                <h5 class="card-title fw-bold">Centro Comunitário Circular</h5>
-                                <p class="card-text text-muted">Espaço para doação e troca de livros, roupas e móveis em bom estado.</p>
-                                <p class="small mb-1"><strong>📍 Endereço:</strong> Praça das Flores, S/N - Bairro Sul</p>
-                                <p class="small mb-0"><strong>🕒 Horário:</strong> Sábados, das 9h às 14h</p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- CARDS RENDERIZADOS DINAMICAMENTE PELO JAVASCRIPT -->
+                <div class="row g-4" id="containerEcopontos">
+                    <!-- Cards inseridos via Script -->
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 4: Formulário Dinâmico de Sugestão -->
+        <!-- SECTION 4: Formulário Dinâmico de Sugestão com Upload de Foto -->
         <section id="cadastro" class="py-5 bg-white">
             <div class="container">
                 <div class="row justify-content-center">
@@ -185,34 +146,45 @@
                             <h2 class="fw-bold text-center mb-2">Cadastre um Novo Ponto de Coleta</h2>
                             <p class="text-muted text-center mb-4">Conhece um ecoponto ou local de doação? Indique abaixo para incluirmos no mapa.</p>
                             
-                            <!-- Alerta de Sucesso ao Enviar -->
                             <div id="alertSucesso" class="alert alert-success d-none text-center" role="alert">
-                                ✅ Sugestão enviada com sucesso! Ela foi encaminhada para análise no painel administrativo.
+                                ✅ Ponto de Coleta cadastrado com sucesso! Ele foi adicionado aos cards da página e enviado para o painel de análise.
                             </div>
 
                             <form id="formSugestao">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="nomePonto" class="form-label fw-semibold">Nome do Ponto / Local:</label>
-                                        <input type="text" class="form-control" id="nomePonto" placeholder="PARQUE TRESIDELA" required>
+                                        <input type="text" class="form-control" id="nomePonto" placeholder="Ex: PARQUE TRESIDELA" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="tipoMaterial" class="form-label fw-semibold">Tipo Principal de Material:</label>
                                         <select class="form-select" id="tipoMaterial" required>
                                             <option value="" disabled selected>Selecione...</option>
+                                            <option value="Recicláveis Geral">Recicláveis Geral</option>
                                             <option value="Lixo Eletrônico">Lixo Eletrônico</option>
-                                            <option value="Recicláveis em Geral">Recicláveis em Geral</option>
-                                            <option value="Móveis e Roupas (Doação)">Móveis e Roupas (Doação)</option>
+                                            <option value="Reutilização & Troca">Reutilização & Troca</option>
                                             <option value="Orgânicos / Compostagem">Orgânicos / Compostagem</option>
                                         </select>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <label for="endereco" class="form-label fw-semibold">Endereço Completo:</label>
-                                        <input type="text" class="form-control" id="endereco" placeholder="AV CENTRAL TRESIDELA" required>
+                                        <input type="text" class="form-control" id="endereco" placeholder="Ex: AV CENTRAL TRESIDELA" required>
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="horario" class="form-label fw-semibold">Horário de Funcionamento:</label>
+                                        <input type="text" class="form-control" id="horario" placeholder="Ex: Seg a Sáb, das 8h às 17h" required>
+                                    </div>
+                                    
+                                    <!-- NOVO CAMPO: UPLOAD DE FOTO -->
+                                    <div class="col-12">
+                                        <label for="fotoPonto" class="form-label fw-semibold">Foto do Local (Opcional):</label>
+                                        <input type="file" class="form-control" id="fotoPonto" accept="image/*">
+                                        <div class="form-text">Selecione uma imagem do computador. Caso não envie, uma imagem padrão será atribuída.</div>
+                                    </div>
+
                                     <div class="col-12">
                                         <label for="descricao" class="form-label fw-semibold">Instruções adicionais de descarte:</label>
-                                        <textarea class="form-control" id="descricao" rows="3" placeholder="SOMENTE LIXO ELETRONICO"></textarea>
+                                        <textarea class="form-control" id="descricao" rows="3" placeholder="Ex: SOMENTE LIXO ELETRONICO" required></textarea>
                                     </div>
                                     <div class="col-12 d-grid mt-4">
                                         <button type="submit" class="btn btn-success btn-lg fw-bold">Enviar Sugestão de Ponto</button>
@@ -230,7 +202,7 @@
             <div class="container py-3">
                 <div class="text-center mb-4">
                     <h2 class="fw-bold">🔒 Painel de Análise de Sugestões (ADM)</h2>
-                    <p class="text-muted">Área restrita para validação das sugestões de ecopontos enviadas pela comunidade.</p>
+                    <p class="text-muted">Área restrita para gerenciamento e exclusão dos ecopontos cadastrados.</p>
                 </div>
 
                 <!-- CARD DE LOGIN DE ADM -->
@@ -258,7 +230,7 @@
                     </div>
                 </div>
 
-                <!-- PAINEL DE ANÁLISE (Oculto até fazer login) -->
+                <!-- PAINEL DE ANÁLISE -->
                 <div id="adminPanel" class="d-none">
                     <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded-3 shadow-sm border">
                         <div>
@@ -269,21 +241,21 @@
                     </div>
 
                     <div class="card border-0 shadow-sm rounded-4 p-4">
-                        <h4 class="fw-bold mb-3">Sugestões de Ecopontos Pendentes de Análise</h4>
+                        <h4 class="fw-bold mb-3">Lista Geral de Ecopontos Registrados</h4>
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>Data/Hora</th>
+                                        <th>Foto</th>
                                         <th>Local</th>
-                                        <th>Tipo de Material</th>
+                                        <th>Tipo Material</th>
                                         <th>Endereço</th>
-                                        <th>Instruções</th>
+                                        <th>Horário</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabelaSugestoes">
-                                    <!-- Conteúdo preenchido dinamicamente via JS -->
+                                    <!-- Preenchido via JS -->
                                 </tbody>
                             </table>
                         </div>
@@ -295,7 +267,7 @@
 
     </main>
 
-    <!-- FOOTER: Rodapé institucional -->
+    <!-- FOOTER -->
     <footer class="bg-dark text-white py-4 mt-auto">
         <div class="container text-center">
             <p class="mb-1 fw-semibold">♻️ EcoPonto - Projeto de Desenvolvimento Web</p>
@@ -307,38 +279,129 @@
     <!-- CDN do Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- LÓGICA EM JAVASCRIPT (Envio do formulário, salvamento e painel ADM) -->
+    <!-- LÓGICA EM JAVASCRIPT COMPLETA -->
     <script>
-        // 1. Lógica do Envio do Formulário de Sugestão
+        // Dados padrão para inicialização (caso o banco local esteja vazio)
+        const pontosIniciais = [
+            {
+                id: 1,
+                nome: "Ecoponto Central",
+                tipo: "Recicláveis Geral",
+                endereco: "Av. Principal, 100 - Centro",
+                horario: "Seg a Sáb, das 8h às 17h",
+                descricao: "Aceita plásticos, metais, vidros e papelão limpo.",
+                imagem: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 2,
+                nome: "Estação E-Lixo",
+                tipo: "Lixo Eletrônico",
+                endereco: "Rua da Tecnologia, 45 - Bairro Verde",
+                horario: "Seg a Sex, das 9h às 18h",
+                descricao: "Recebe pilhas, baterias, computadores e eletrodomésticos quebrados.",
+                imagem: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 3,
+                nome: "Centro Comunitário Circular",
+                tipo: "Reutilização & Troca",
+                endereco: "Praça das Flores, S/N - Bairro Sul",
+                horario: "Sábados, das 9h às 14h",
+                descricao: "Espaço para doação e troca de livros, roupas e móveis em bom estado.",
+                imagem: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=500&q=80"
+            }
+        ];
+
+        // Carrega os pontos do localStorage ou inicializa com os padrão
+        function obterPontos() {
+            const salvos = localStorage.getItem('ecopontos_dados');
+            if (!salvos) {
+                localStorage.setItem('ecopontos_dados', JSON.stringify(pontosIniciais));
+                return pontosIniciais;
+            }
+            return JSON.parse(salvos);
+        }
+
+        // Renderiza os Cards na Seção "Pontos de Coleta Seletiva"
+        function renderizarCards() {
+            const container = document.getElementById('containerEcopontos');
+            const pontos = obterPontos();
+            container.innerHTML = '';
+
+            if (pontos.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center py-5 text-muted"><p>Nenhum ponto de coleta cadastrado no momento.</p></div>`;
+                return;
+            }
+
+            pontos.forEach(ponto => {
+                let badgeClass = "bg-success";
+                if (ponto.tipo === "Recicláveis Geral") badgeClass = "bg-primary";
+                if (ponto.tipo === "Lixo Eletrônico") badgeClass = "bg-warning text-dark";
+
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+                col.innerHTML = `
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="${ponto.imagem}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="${ponto.nome}">
+                        <div class="card-body">
+                            <span class="badge ${badgeClass} mb-2">${ponto.tipo}</span>
+                            <h5 class="card-title fw-bold">${ponto.nome}</h5>
+                            <p class="card-text text-muted">${ponto.descricao}</p>
+                            <p class="small mb-1"><strong>📍 Endereço:</strong> ${ponto.endereco}</p>
+                            <p class="small mb-0"><strong>🕒 Horário:</strong> ${ponto.horario}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        // Processa Envio do Formulário (com conversão de Foto para Base64)
         document.getElementById('formSugestao').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const novaSugestao = {
+            const fileInput = document.getElementById('fotoPonto');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    salvarPonto(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                salvarPonto("https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=500&q=80");
+            }
+        });
+
+        function salvarPonto(imagemUrl) {
+            const novoPonto = {
                 id: Date.now(),
-                data: new Date().toLocaleString('pt-BR'),
                 nome: document.getElementById('nomePonto').value,
                 tipo: document.getElementById('tipoMaterial').value,
                 endereco: document.getElementById('endereco').value,
-                descricao: document.getElementById('descricao').value || 'Sem instruções adicionais.'
+                horario: document.getElementById('horario').value,
+                descricao: document.getElementById('descricao').value,
+                imagem: imagemUrl
             };
 
-            // Recupera lista do localStorage ou cria uma vazia
-            let listaSugestoes = JSON.parse(localStorage.getItem('ecoponto_sugestoes')) || [];
-            listaSugestoes.push(novaSugestao);
-            localStorage.setItem('ecoponto_sugestoes', JSON.stringify(listaSugestoes));
+            let pontos = obterPontos();
+            pontos.push(novoPonto);
+            localStorage.setItem('ecopontos_dados', JSON.stringify(pontos));
 
-            // Exibe mensagem de sucesso e reseta formulário
+            // Exibe mensagem
             const alert = document.getElementById('alertSucesso');
             alert.classList.remove('d-none');
-            this.reset();
+            document.getElementById('formSugestao').reset();
 
-            setTimeout(() => { alert.classList.add('d-none'); }, 5000);
+            setTimeout(() => { alert.classList.add('d-none'); }, 4000);
 
-            // Atualiza tabela se estiver logado
+            // Atualiza os Cards e a Tabela ADM em tempo real
+            renderizarCards();
             carregarTabelaAdmin();
-        });
+        }
 
-        // 2. Lógica do Login de ADM (JEFFERSON / 12345678)
+        // Lógica de Login do ADM (JEFFERSON / 12345678)
         document.getElementById('formLogin').addEventListener('submit', function(e) {
             e.preventDefault();
             const user = document.getElementById('adminUser').value.trim();
@@ -355,54 +418,52 @@
             }
         });
 
-        // Logout
         document.getElementById('btnLogout').addEventListener('click', function() {
             document.getElementById('adminPanel').classList.add('d-none');
             document.getElementById('loginCard').classList.remove('d-none');
             document.getElementById('formLogin').reset();
         });
 
-        // 3. Renderização da Tabela de Análise
+        // Carrega Tabela no Painel ADM
         function carregarTabelaAdmin() {
             const tbody = document.getElementById('tabelaSugestoes');
             tbody.innerHTML = '';
+            const pontos = obterPontos();
 
-            let lista = JSON.parse(localStorage.getItem('ecoponto_sugestoes')) || [];
-
-            if (lista.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">Nenhuma sugestão enviada no momento.</td></tr>`;
+            if (pontos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">Nenhum ponto registrado.</td></tr>`;
                 return;
             }
 
-            lista.forEach(item => {
+            pontos.forEach(ponto => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><small class="text-muted">${item.data}</small></td>
-                    <td><strong>${item.nome}</strong></td>
-                    <td><span class="badge bg-info text-dark">${item.tipo}</span></td>
-                    <td>${item.endereco}</td>
-                    <td><small>${item.descricao}</small></td>
+                    <td><img src="${ponto.imagem}" style="width: 50px; height: 50px; object-fit: cover; class="rounded"></td>
+                    <td><strong>${ponto.nome}</strong></td>
+                    <td><span class="badge bg-secondary">${ponto.tipo}</span></td>
+                    <td><small>${ponto.endereco}</small></td>
+                    <td><small>${ponto.horario}</small></td>
                     <td>
-                        <button class="btn btn-sm btn-success me-1" onclick="aprovarSugestao(${item.id})">Aprovar</button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="excluirSugestao(${item.id})">Excluir</button>
+                        <button class="btn btn-sm btn-danger" onclick="excluirPonto(${ponto.id})">Excluir / Tirar do Ar</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // Funções para gerenciar sugestões
-        function excluirSugestao(id) {
-            let lista = JSON.parse(localStorage.getItem('ecoponto_sugestoes')) || [];
-            lista = lista.filter(item => item.id !== id);
-            localStorage.setItem('ecoponto_sugestoes', JSON.stringify(lista));
+        // Exclui um ponto tanto do Painel ADM quanto dos Cards da tela pública
+        function excluirPonto(id) {
+            let pontos = obterPontos();
+            pontos = pontos.filter(p => p.id !== id);
+            localStorage.setItem('ecopontos_dados', JSON.stringify(pontos));
+            
+            // Recarrega telas
+            renderizarCards();
             carregarTabelaAdmin();
         }
 
-        function aprovarSugestao(id) {
-            alert('Sugestão aprovada com sucesso! (Na Nota 2 ela poderá ser migrada dinamicamente para os cards de Ecopontos).');
-            excluirSugestao(id);
-        }
+        // Inicializa os Cards ao carregar a página
+        document.addEventListener('DOMContentLoaded', renderizarCards);
     </script>
 </body>
 </html>
