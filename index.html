@@ -122,32 +122,31 @@
             </div>
         </section>
 
-        <!-- SECTION 3: Cards dos Ecopontos Dinâmicos -->
+        <!-- SECTION 3: Cards dos Ecopontos Dinâmicos (Apenas Aprovados) -->
         <section id="ecopontos" class="py-5 bg-light">
             <div class="container">
                 <div class="text-center mb-5">
                     <h2 class="fw-bold">Pontos de Coleta Seletiva (Ecopontos)</h2>
-                    <p class="text-muted">Consulte os locais disponíveis perto de você</p>
+                    <p class="text-muted">Consulte os locais aprovados perto de você</p>
                 </div>
 
-                <!-- CARDS RENDERIZADOS DINAMICAMENTE PELO JAVASCRIPT -->
                 <div class="row g-4" id="containerEcopontos">
                     <!-- Cards inseridos via Script -->
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 4: Formulário Dinâmico de Sugestão com Upload de Foto -->
+        <!-- SECTION 4: Formulário Dinâmico de Sugestão -->
         <section id="cadastro" class="py-5 bg-white">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="card border-0 shadow rounded-4 p-4 p-md-5">
                             <h2 class="fw-bold text-center mb-2">Cadastre um Novo Ponto de Coleta</h2>
-                            <p class="text-muted text-center mb-4">Conhece um ecoponto ou local de doação? Indique abaixo para incluirmos no mapa.</p>
+                            <p class="text-muted text-center mb-4">Conhece um ecoponto ou local de doação? Indique abaixo para que a administração analise e inclua no mapa.</p>
                             
                             <div id="alertSucesso" class="alert alert-success d-none text-center" role="alert">
-                                ✅ Ponto de Coleta cadastrado com sucesso! Ele foi adicionado aos cards da página e enviado para o painel de análise.
+                                ✅ Sugestão enviada para a administração! Após a aprovação do ADM, ela aparecerá nos cards da página.
                             </div>
 
                             <form id="formSugestao">
@@ -155,6 +154,10 @@
                                     <div class="col-md-6">
                                         <label for="nomePonto" class="form-label fw-semibold">Nome do Ponto / Local:</label>
                                         <input type="text" class="form-control" id="nomePonto" placeholder="Ex: PARQUE TRESIDELA" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="emailContato" class="form-label fw-semibold">Seu E-mail (para feedback do ADM):</label>
+                                        <input type="email" class="form-control" id="emailContato" placeholder="seu-email@exemplo.com" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="tipoMaterial" class="form-label fw-semibold">Tipo Principal de Material:</label>
@@ -170,16 +173,15 @@
                                         <label for="endereco" class="form-label fw-semibold">Endereço Completo:</label>
                                         <input type="text" class="form-control" id="endereco" placeholder="Ex: AV CENTRAL TRESIDELA" required>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label for="horario" class="form-label fw-semibold">Horário de Funcionamento:</label>
                                         <input type="text" class="form-control" id="horario" placeholder="Ex: Seg a Sáb, das 8h às 17h" required>
                                     </div>
                                     
-                                    <!-- NOVO CAMPO: UPLOAD DE FOTO -->
                                     <div class="col-12">
                                         <label for="fotoPonto" class="form-label fw-semibold">Foto do Local (Opcional):</label>
                                         <input type="file" class="form-control" id="fotoPonto" accept="image/*">
-                                        <div class="form-text">Selecione uma imagem do computador. Caso não envie, uma imagem padrão será atribuída.</div>
+                                        <div class="form-text">Selecione uma imagem. Caso não envie, uma imagem padrão será usada.</div>
                                     </div>
 
                                     <div class="col-12">
@@ -197,12 +199,12 @@
             </div>
         </section>
 
-        <!-- SECTION 5: ÁREA ADMINISTRATIVA (Análise de Sugestões com Login) -->
+        <!-- SECTION 5: ÁREA ADMINISTRATIVA (Login e Moderação com Aceitar/Recusar) -->
         <section id="adminSection" class="py-5 bg-light border-top">
             <div class="container py-3">
                 <div class="text-center mb-4">
-                    <h2 class="fw-bold">🔒 Painel de Análise de Sugestões (ADM)</h2>
-                    <p class="text-muted">Área restrita para gerenciamento e exclusão dos ecopontos cadastrados.</p>
+                    <h2 class="fw-bold">🔒 Painel de Análise e Moderação (ADM)</h2>
+                    <p class="text-muted">Área restrita para revisar, aprovar ou descartar sugestões da comunidade.</p>
                 </div>
 
                 <!-- CARD DE LOGIN DE ADM -->
@@ -240,22 +242,43 @@
                         <button id="btnLogout" class="btn btn-outline-danger btn-sm fw-bold">Sair do Painel</button>
                     </div>
 
-                    <div class="card border-0 shadow-sm rounded-4 p-4">
-                        <h4 class="fw-bold mb-3">Lista Geral de Ecopontos Registrados</h4>
+                    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h4 class="fw-bold text-warning text-dark mb-3">⏳ Sugestões Pendentes de Análise</h4>
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
-                                <thead class="table-dark">
+                                <thead class="table-warning">
                                     <tr>
                                         <th>Foto</th>
                                         <th>Local</th>
-                                        <th>Tipo Material</th>
-                                        <th>Endereço</th>
-                                        <th>Horário</th>
-                                        <th>Ações</th>
+                                        <th>E-mail do Usuário</th>
+                                        <th>Tipo / Endereço</th>
+                                        <th>Instruções</th>
+                                        <th>Ações de Moderação</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabelaSugestoes">
-                                    <!-- Preenchido via JS -->
+                                <tbody id="tabelaPendentes">
+                                    <!-- Sugestões pendentes inseridas aqui -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4 p-4">
+                        <h4 class="fw-bold text-success mb-3">✅ Pontos Aprovados no Ar</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Local</th>
+                                        <th>E-mail</th>
+                                        <th>Tipo</th>
+                                        <th>Endereço</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaAprovados">
+                                    <!-- Ecopontos ativos inseridos aqui -->
                                 </tbody>
                             </table>
                         </div>
@@ -267,11 +290,20 @@
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-dark text-white py-4 mt-auto">
+    <!-- FOOTER COM CONTATO DE AJUDA -->
+    <footer class="bg-dark text-white py-4 mt-auto border-top border-secondary">
         <div class="container text-center">
             <p class="mb-1 fw-semibold">♻️ EcoPonto - Projeto de Desenvolvimento Web</p>
             <p class="small text-muted mb-2">Desenvolvido em conformidade com o ODS 12 da ONU: Consumo e Produção Responsáveis.</p>
+            
+            <!-- CONTATO DE AJUDA SOLICITADO -->
+            <div class="my-3 p-2 bg-secondary bg-opacity-20 d-inline-block rounded-3 px-4">
+                <span class="text-light small">📞 Precisa de ajuda ou suporte? Contato direto: </span>
+                <a href="https://wa.me/5599999999999" target="_blank" class="text-success fw-bold text-decoration-none ms-1">
+                    (99) 99999-9999 (WhatsApp / Suporte Jefferson)
+                </a>
+            </div>
+
             <p class="small text-muted mb-0">&copy; 2026 EcoPonto. Todos os direitos reservados.</p>
         </div>
     </footer>
@@ -279,57 +311,62 @@
     <!-- CDN do Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- LÓGICA EM JAVASCRIPT COMPLETA -->
+    <!-- LÓGICA EM JAVASCRIPT COMPLETA COM FLUXO DE APROVAÇÃO -->
     <script>
-        // Dados padrão para inicialização (caso o banco local esteja vazio)
+        // Dados padrão para inicialização
         const pontosIniciais = [
             {
                 id: 1,
                 nome: "Ecoponto Central",
+                email: "admin@ecoponto.com",
                 tipo: "Recicláveis Geral",
                 endereco: "Av. Principal, 100 - Centro",
                 horario: "Seg a Sáb, das 8h às 17h",
                 descricao: "Aceita plásticos, metais, vidros e papelão limpo.",
-                imagem: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=500&q=80"
+                imagem: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=500&q=80",
+                aprovado: true
             },
             {
                 id: 2,
                 nome: "Estação E-Lixo",
+                email: "admin@ecoponto.com",
                 tipo: "Lixo Eletrônico",
                 endereco: "Rua da Tecnologia, 45 - Bairro Verde",
                 horario: "Seg a Sex, das 9h às 18h",
                 descricao: "Recebe pilhas, baterias, computadores e eletrodomésticos quebrados.",
-                imagem: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=500&q=80"
+                imagem: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=500&q=80",
+                aprovado: true
             },
             {
                 id: 3,
                 nome: "Centro Comunitário Circular",
+                email: "admin@ecoponto.com",
                 tipo: "Reutilização & Troca",
                 endereco: "Praça das Flores, S/N - Bairro Sul",
                 horario: "Sábados, das 9h às 14h",
                 descricao: "Espaço para doação e troca de livros, roupas e móveis em bom estado.",
-                imagem: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=500&q=80"
+                imagem: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=500&q=80",
+                aprovado: true
             }
         ];
 
-        // Carrega os pontos do localStorage ou inicializa com os padrão
         function obterPontos() {
-            const salvos = localStorage.getItem('ecopontos_dados');
+            const salvos = localStorage.getItem('ecopontos_dados_v2');
             if (!salvos) {
-                localStorage.setItem('ecopontos_dados', JSON.stringify(pontosIniciais));
+                localStorage.setItem('ecopontos_dados_v2', JSON.stringify(pontosIniciais));
                 return pontosIniciais;
             }
             return JSON.parse(salvos);
         }
 
-        // Renderiza os Cards na Seção "Pontos de Coleta Seletiva"
+        // Renderiza apenas os cards APROVADOS na área pública
         function renderizarCards() {
             const container = document.getElementById('containerEcopontos');
-            const pontos = obterPontos();
+            const pontos = obterPontos().filter(p => p.aprovado === true);
             container.innerHTML = '';
 
             if (pontos.length === 0) {
-                container.innerHTML = `<div class="col-12 text-center py-5 text-muted"><p>Nenhum ponto de coleta cadastrado no momento.</p></div>`;
+                container.innerHTML = `<div class="col-12 text-center py-5 text-muted"><p>Nenhum ponto de coleta aprovado no momento.</p></div>`;
                 return;
             }
 
@@ -356,7 +393,7 @@
             });
         }
 
-        // Processa Envio do Formulário (com conversão de Foto para Base64)
+        // Envio da Sugestão (padrão: aprovado = false)
         document.getElementById('formSugestao').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -365,9 +402,7 @@
 
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    salvarPonto(e.target.result);
-                };
+                reader.onload = function(e) { salvarPonto(e.target.result); };
                 reader.readAsDataURL(file);
             } else {
                 salvarPonto("https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=500&q=80");
@@ -378,30 +413,28 @@
             const novoPonto = {
                 id: Date.now(),
                 nome: document.getElementById('nomePonto').value,
+                email: document.getElementById('emailContato').value,
                 tipo: document.getElementById('tipoMaterial').value,
                 endereco: document.getElementById('endereco').value,
                 horario: document.getElementById('horario').value,
                 descricao: document.getElementById('descricao').value,
-                imagem: imagemUrl
+                imagem: imagemUrl,
+                aprovado: false // Inicia PENDENTE
             };
 
             let pontos = obterPontos();
             pontos.push(novoPonto);
-            localStorage.setItem('ecopontos_dados', JSON.stringify(pontos));
+            localStorage.setItem('ecopontos_dados_v2', JSON.stringify(pontos));
 
-            // Exibe mensagem
             const alert = document.getElementById('alertSucesso');
             alert.classList.remove('d-none');
             document.getElementById('formSugestao').reset();
 
-            setTimeout(() => { alert.classList.add('d-none'); }, 4000);
-
-            // Atualiza os Cards e a Tabela ADM em tempo real
-            renderizarCards();
-            carregarTabelaAdmin();
+            setTimeout(() => { alert.classList.add('d-none'); }, 5000);
+            carregarTabelasAdmin();
         }
 
-        // Lógica de Login do ADM (JEFFERSON / 12345678)
+        // Login ADM
         document.getElementById('formLogin').addEventListener('submit', function(e) {
             e.preventDefault();
             const user = document.getElementById('adminUser').value.trim();
@@ -412,7 +445,7 @@
                 alert.classList.add('d-none');
                 document.getElementById('loginCard').classList.add('d-none');
                 document.getElementById('adminPanel').classList.remove('d-none');
-                carregarTabelaAdmin();
+                carregarTabelasAdmin();
             } else {
                 alert.classList.remove('d-none');
             }
@@ -424,45 +457,87 @@
             document.getElementById('formLogin').reset();
         });
 
-        // Carrega Tabela no Painel ADM
-        function carregarTabelaAdmin() {
-            const tbody = document.getElementById('tabelaSugestoes');
-            tbody.innerHTML = '';
-            const pontos = obterPontos();
+        // Carrega Tabelas de Pendentes e Aprovados no Painel ADM
+        function carregarTabelasAdmin() {
+            const tbodyPendentes = document.getElementById('tabelaPendentes');
+            const tbodyAprovados = document.getElementById('tabelaAprovados');
+            tbodyPendentes.innerHTML = '';
+            tbodyAprovados.innerHTML = '';
 
-            if (pontos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">Nenhum ponto registrado.</td></tr>`;
-                return;
+            const pontos = obterPontos();
+            const pendentes = pontos.filter(p => p.aprovado === false);
+            const aprovados = pontos.filter(p => p.aprovado === true);
+
+            // Renderiza Pendentes
+            if (pendentes.length === 0) {
+                tbodyPendentes.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-3">Nenhuma sugestão pendente de análise.</td></tr>`;
+            } else {
+                pendentes.forEach(ponto => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><img src="${ponto.imagem}" style="width: 45px; height: 45px; object-fit: cover;" class="rounded"></td>
+                        <td><strong>${ponto.nome}</strong></td>
+                        <td><a href="mailto:${ponto.email}" class="small text-decoration-none">${ponto.email}</a></td>
+                        <td><small>${ponto.tipo}<br>${ponto.endereco}</small></td>
+                        <td><small>${ponto.descricao}</small></td>
+                        <td>
+                            <button class="btn btn-sm btn-success fw-bold mb-1" onclick="aprovarPonto(${ponto.id})">Aprovar / Publicar</button>
+                            <button class="btn btn-sm btn-outline-danger fw-bold mb-1" onclick="recusarPonto(${ponto.id}, '${ponto.email}')">Recusar</button>
+                        </td>
+                    `;
+                    tbodyPendentes.appendChild(tr);
+                });
             }
 
-            pontos.forEach(ponto => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><img src="${ponto.imagem}" style="width: 50px; height: 50px; object-fit: cover; class="rounded"></td>
-                    <td><strong>${ponto.nome}</strong></td>
-                    <td><span class="badge bg-secondary">${ponto.tipo}</span></td>
-                    <td><small>${ponto.endereco}</small></td>
-                    <td><small>${ponto.horario}</small></td>
-                    <td>
-                        <button class="btn btn-sm btn-danger" onclick="excluirPonto(${ponto.id})">Excluir / Tirar do Ar</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+            // Renderiza Aprovados
+            if (aprovados.length === 0) {
+                tbodyAprovados.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-3">Nenhum ponto no ar.</td></tr>`;
+            } else {
+                aprovados.forEach(ponto => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><img src="${ponto.imagem}" style="width: 45px; height: 45px; object-fit: cover;" class="rounded"></td>
+                        <td><strong>${ponto.nome}</strong></td>
+                        <td><small>${ponto.email}</small></td>
+                        <td><span class="badge bg-secondary">${ponto.tipo}</span></td>
+                        <td><small>${ponto.endereco}</small></td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="excluirPonto(${ponto.id})">Tirar do Ar</button>
+                        </td>
+                    `;
+                    tbodyAprovados.appendChild(tr);
+                });
+            }
         }
 
-        // Exclui um ponto tanto do Painel ADM quanto dos Cards da tela pública
+        // Aceita a Sugestão
+        function aprovarPonto(id) {
+            let pontos = obterPontos();
+            const index = pontos.findIndex(p => p.id === id);
+            if (index !== -1) {
+                pontos[index].aprovado = true;
+                localStorage.setItem('ecopontos_dados_v2', JSON.stringify(pontos));
+                renderizarCards();
+                carregarTabelasAdmin();
+            }
+        }
+
+        // Recusa a Sugestão
+        function recusarPonto(id, email) {
+            if (confirm(`Deseja recusar esta sugestão? Você pode enviar um feedback para ${email}`)) {
+                excluirPonto(id);
+            }
+        }
+
+        // Exclui um Ponto do Banco Local
         function excluirPonto(id) {
             let pontos = obterPontos();
             pontos = pontos.filter(p => p.id !== id);
-            localStorage.setItem('ecopontos_dados', JSON.stringify(pontos));
-            
-            // Recarrega telas
+            localStorage.setItem('ecopontos_dados_v2', JSON.stringify(pontos));
             renderizarCards();
-            carregarTabelaAdmin();
+            carregarTabelasAdmin();
         }
 
-        // Inicializa os Cards ao carregar a página
         document.addEventListener('DOMContentLoaded', renderizarCards);
     </script>
 </body>
